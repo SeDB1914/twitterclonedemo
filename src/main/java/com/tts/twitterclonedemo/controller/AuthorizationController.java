@@ -14,21 +14,21 @@ import javax.validation.Valid;
 @Controller
 public class AuthorizationController {
 
-    private final UserService userService;
+    private UserService userService;
 
 
     public AuthorizationController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/signup")
+    @GetMapping(value = "/signup")
     public String registration (Model model) {
         User user = new User();
         model.addAttribute("user", user);
         return "registration";
     }
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup")
     public String createNewUser(@Valid User user, BindingResult bindingResult, Model model) {
         User userExists = userService.findByUsername(user.getUsername());
         if (userExists != null) {
@@ -40,6 +40,11 @@ public class AuthorizationController {
             model.addAttribute("user", new User());
         }
         return "registration";
+    }
+
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login";
     }
 
 }
